@@ -18,6 +18,7 @@
 		85275D7B1A8F9CEA00003EC4 /* SYUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 85275D7A1A8F9CEA00003EC4 /* SYUtil.m */; };
 		85275D851A8F9DF800003EC4 /* StoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85275D841A8F9DF800003EC4 /* StoryView.m */; };
 		85275D891A8F9EFB00003EC4 /* StoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85275D881A8F9EFB00003EC4 /* StoryModel.m */; };
+		855CBDB11AE3D22B00EEB551 /* flower-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 855CBDB01AE3D22B00EEB551 /* flower-256.png */; };
 		8566160A1ADD6CDA00D8F33E /* cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 856616091ADD6CDA00D8F33E /* cover.png */; };
 		8566160D1ADFD64E00D8F33E /* cover-6.png in Resources */ = {isa = PBXBuildFile; fileRef = 8566160B1ADFD64E00D8F33E /* cover-6.png */; };
 		8566160E1ADFD64E00D8F33E /* cover-6p.png in Resources */ = {isa = PBXBuildFile; fileRef = 8566160C1ADFD64E00D8F33E /* cover-6p.png */; };
@@ -160,6 +161,7 @@
 		85275D841A8F9DF800003EC4 /* StoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryView.m; sourceTree = "<group>"; };
 		85275D871A8F9EFB00003EC4 /* StoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryModel.h; sourceTree = "<group>"; };
 		85275D881A8F9EFB00003EC4 /* StoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryModel.m; sourceTree = "<group>"; };
+		855CBDB01AE3D22B00EEB551 /* flower-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flower-256.png"; sourceTree = "<group>"; };
 		856616091ADD6CDA00D8F33E /* cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover.png; sourceTree = "<group>"; };
 		8566160B1ADFD64E00D8F33E /* cover-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cover-6.png"; sourceTree = "<group>"; };
 		8566160C1ADFD64E00D8F33E /* cover-6p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cover-6p.png"; sourceTree = "<group>"; };
@@ -671,6 +673,7 @@
 		858C9A3F1AADD0B200D14832 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				855CBDB01AE3D22B00EEB551 /* flower-256.png */,
 				8566160B1ADFD64E00D8F33E /* cover-6.png */,
 				8566160C1ADFD64E00D8F33E /* cover-6p.png */,
 				856616091ADD6CDA00D8F33E /* cover.png */,
@@ -890,6 +893,7 @@
 			files = (
 				85E9B1C61AD1531700C0BA65 /* repeat-256.png in Resources */,
 				85E9B1DD1AD4380100C0BA65 /* topic-256.png in Resources */,
+				855CBDB11AE3D22B00EEB551 /* flower-256.png in Resources */,
 				8566160D1ADFD64E00D8F33E /* cover-6.png in Resources */,
 				85E9B1C71AD1531700C0BA65 /* repeatone-256.png in Resources */,
 				856616311ADFF8A100D8F33E /* UMSLoginViewController.xib in Resources */,
