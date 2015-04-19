@@ -7,16 +7,55 @@
 //
 
 #import "AppDelegate.h"
+#import "UMSocial.h"
+#import "WXApi.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialSinaHandler.h"
 
+#import "UMSocialQQHandler.h"
+#import "ContainerViewController.h"
 @interface AppDelegate ()
-
+{
+    ContainerViewController *c;
+}
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"guize" ofType:@"jpg"];
+    NSError *error = nil;
+    NSArray *directoryPaths = NSSearchPathForDirectoriesInDomains
+    (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [directoryPaths objectAtIndex:0];
+    NSLog(@"%@",documentsDirectoryPath);
+    NSFileManager *filemanager = [[NSFileManager alloc] init];
+    [filemanager removeItemAtPath:[NSString stringWithFormat:@"%@/guize.jpg",documentsDirectoryPath] error:&error];
+    [filemanager copyItemAtPath:dataPath toPath:[NSString stringWithFormat:@"%@/guize.jpg",documentsDirectoryPath]  error:&error];
+    
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    c = [story instantiateViewControllerWithIdentifier:@"container"];
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
+    self.window.rootViewController = c ;
+    
+    
+    [UMSocialData setAppKey:@"552fc46efd98c5cf6c0008bd"];
+    
+    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeNone;
+    //分享图文样式到微信朋友圈显示字数比较少，只显示分享标题
+    //    [UMSocialData defaultData].extConfig.title = @"颜文字输入法ios版！全面支持iphone和ipad全平台，收录几千个颜文字，可自定义表情，查看最近使用的表情，太方便了！简直是卖萌利器！";
+    //设置微信好友或者朋友圈的分享url,下面是微信好友，微信朋友圈对应wechatTimelineData
+    //    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://itunes.apple.com/cn/app/yan-wen-zi/id866753915?ls=1&mt=8";
+    //    [UMSocialConfig setSupportSinaSSO:YES];
+    
+    [UMSocialSinaHandler openSSOWithRedirectURL:nil];
+    
+    
+    [UMSocialWechatHandler setWXAppId:@"wx547036f9011b9dfe" appSecret:@"c34b5a32ddf18816dd20e051127eca8f" url:@"http://itunes.apple.com/cn/app/yan-wen-zi/id866753915?ls=1&mt=8"];
+//    [UMSocialQQHandler setQQWithAppId:@"1102007075" appKey:@"g3M7AMNAoS1Ful43" url:@"http://www.html-js.com"];
+    [UMSocialQQHandler setSupportWebView:NO];
     return YES;
 }
 
