@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>FA488B70-900A-40A5-BEB4-0FF5D36DDA60</string>
+	<key>IDESourceControlProjectName</key>
+	<string>sleepstory</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F82D5925A0E5CD9D4A8FD0B112463548693550C4</key>
+		<string>https://git.coding.net/xinyu198736/story.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>sleepstory.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F82D5925A0E5CD9D4A8FD0B112463548693550C4</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://git.coding.net/xinyu198736/story.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F82D5925A0E5CD9D4A8FD0B112463548693550C4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F82D5925A0E5CD9D4A8FD0B112463548693550C4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>story</string>
+		</dict>
+	</array>
+</dict>
+</plist>
