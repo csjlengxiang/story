@@ -24,15 +24,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"guize" ofType:@"jpg"];
-    NSError *error = nil;
-    NSArray *directoryPaths = NSSearchPathForDirectoriesInDomains
-    (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectoryPath = [directoryPaths objectAtIndex:0];
-    NSLog(@"%@",documentsDirectoryPath);
-    NSFileManager *filemanager = [[NSFileManager alloc] init];
-    [filemanager removeItemAtPath:[NSString stringWithFormat:@"%@/guize.jpg",documentsDirectoryPath] error:&error];
-    [filemanager copyItemAtPath:dataPath toPath:[NSString stringWithFormat:@"%@/guize.jpg",documentsDirectoryPath]  error:&error];
+    
     
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     c = [story instantiateViewControllerWithIdentifier:@"container"];

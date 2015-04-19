@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1ADD698872A21A0932B0669C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47E6A1F46E341D992C3E910E /* libPods.a */; };
 		85275D561A8F9C2A00003EC4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 85275D551A8F9C2A00003EC4 /* main.m */; };
 		85275D591A8F9C2A00003EC4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85275D581A8F9C2A00003EC4 /* AppDelegate.m */; };
 		85275D5C1A8F9C2A00003EC4 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85275D5B1A8F9C2A00003EC4 /* StoryViewController.m */; };
@@ -124,6 +123,7 @@
 		85E9B1DD1AD4380100C0BA65 /* topic-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1DC1AD4380100C0BA65 /* topic-256.png */; };
 		85E9B1E01AD574D500C0BA65 /* YDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1DF1AD574D500C0BA65 /* YDSlider.m */; };
 		85E9B1E21AD5846900C0BA65 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E9B1E11AD5846900C0BA65 /* MediaPlayer.framework */; };
+		908EAB061AE3A03200DB5038 /* flower-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 908EAB051AE3A03200DB5038 /* flower-256.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -349,6 +349,7 @@
 		85E9B1DE1AD574D500C0BA65 /* YDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDSlider.h; sourceTree = "<group>"; };
 		85E9B1DF1AD574D500C0BA65 /* YDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDSlider.m; sourceTree = "<group>"; };
 		85E9B1E11AD5846900C0BA65 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		908EAB051AE3A03200DB5038 /* flower-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flower-256.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -374,7 +375,6 @@
 				856616481ADFF93200D8F33E /* libSocialWechat.a in Frameworks */,
 				859E628C1AB5CBBF005996B8 /* AudioToolbox.framework in Frameworks */,
 				859E628A1AB5BD3A005996B8 /* AVFoundation.framework in Frameworks */,
-				1ADD698872A21A0932B0669C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,6 +671,7 @@
 		858C9A3F1AADD0B200D14832 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				908EAB051AE3A03200DB5038 /* flower-256.png */,
 				8566160B1ADFD64E00D8F33E /* cover-6.png */,
 				8566160C1ADFD64E00D8F33E /* cover-6p.png */,
 				856616091ADD6CDA00D8F33E /* cover.png */,
@@ -856,6 +857,7 @@
 				TargetAttributes = {
 					85275D4F1A8F9C2A00003EC4 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = M78L9G96T2;
 					};
 					85275D681A8F9C2A00003EC4 = {
 						CreatedOnToolsVersion = 6.1;
@@ -890,6 +892,7 @@
 			files = (
 				85E9B1C61AD1531700C0BA65 /* repeat-256.png in Resources */,
 				85E9B1DD1AD4380100C0BA65 /* topic-256.png in Resources */,
+				908EAB061AE3A03200DB5038 /* flower-256.png in Resources */,
 				8566160D1ADFD64E00D8F33E /* cover-6.png in Resources */,
 				85E9B1C71AD1531700C0BA65 /* repeatone-256.png in Resources */,
 				856616311ADFF8A100D8F33E /* UMSLoginViewController.xib in Resources */,
@@ -1168,7 +1171,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Developer: sun ge (PTM3PAZY2N)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sleepstory/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -1200,7 +1203,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Developer: sun ge (PTM3PAZY2N)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sleepstory/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
