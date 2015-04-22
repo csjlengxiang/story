@@ -17,6 +17,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "Track.h"
 #import "DOUAudioStreamer.h"
+#import "FavManager.h"
+#import "ATMHud.h"
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
 static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
@@ -45,6 +47,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     IBOutlet UILabel *totalTimeLabel;
     
     IBOutlet RoundIconButton *modeButton;
+    IBOutlet UIButton *favButton;
     IBOutlet RoundLabel *viewCountLabel;
     IBOutlet RoundLabel *dayInfoLabel;
     
@@ -52,6 +55,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     
     DOUAudioStreamer *streamer;
     NSTimer *_timer;
+    ATMHud * hud;
 }
 @end
 
@@ -73,6 +77,8 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     navBar.backgroundColor = [SYUtil colorWithHex:@"e15151"];
     [coverView.layer setCornerRadius:10];
     [coverView.layer setMasksToBounds:YES];
+    hud = [[ATMHud alloc] initWithDelegate:self];
+    [self.view addSubview:hud.view];
     
 //    progressSlider = [[YDSlider alloc] init];
 //    progressSlider.frame = CGRectMake(0, 0, downloadProgressBar.frame.size.width, 3);
@@ -109,7 +115,16 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     nowTimeLabel.text = @"00:00";
     totalTimeLabel.text = @"00:00";
     [modeButton drawIcon:[UIImage imageNamed:@"repeat-256.png"] text:@"全部循环"];
+    [self checkFavStatus];
     [self configPlayingInfo];
+}
+-(void)checkFavStatus
+{
+    if([[FavManager shareManager] isFaved:self.story.ID]){
+        [favButton setBackgroundImage:[UIImage imageNamed:@"flower-2-256.png"] forState:UIControlStateNormal];
+    }else{
+        [favButton setBackgroundImage:[UIImage imageNamed:@"flower-256.png"] forState:UIControlStateNormal];
+    }
 }
 - (void)configPlayingInfo
 {
@@ -375,5 +390,37 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
                                      shareImage:[UIImage imageNamed:@"shot.png"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
                                        delegate:nil];
+}
+-(IBAction)fav:(UIButton *)sender
+{
+    [self animButton:sender];
+    if([[FavManager shareManager] isFaved:self.story.ID]){
+        [[FavManager shareManager] delFav:self.story.ID];
+        
+    }else{
+        [[FavManager shareManager] addFav:self.story.ID];
+        
+        [hud setCaption:@"收藏成功！"];
+        [hud show];
+        [hud hideAfter:2.0];
+    }
+    [self checkFavStatus];
+}
+-(void)animButton:(UIButton *)button
+{
+    CGRect frame = button.frame;
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim.delegate = self;
+    anim.springSpeed = 20;
+    anim.springBounciness = 10;
+    //    anim.velocity = CGRectMake(0, 0, 1, 1);
+    anim.completionBlock = ^(POPAnimation *__strong anim, BOOL hi){
+        POPSpringAnimation *anim2 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+        anim2.springSpeed = 20;
+        anim2.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, frame.size.width, frame.size.width)];
+        [button pop_addAnimation:anim2 forKey:@"size2"];
+    };
+    anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, frame.size.width*1.5f, frame.size.height*1.5f)];
+    [button pop_addAnimation:anim forKey:@"size"];
 }
 @end

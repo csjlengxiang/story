@@ -14,9 +14,12 @@
 
 #import "UMSocialQQHandler.h"
 #import "ContainerViewController.h"
+#import "FavManager.h"
+#import "StoryManager.h"
 @interface AppDelegate ()
 {
     ContainerViewController *c;
+     sqlite3 *database;
 }
 @end
 
@@ -48,6 +51,27 @@
     [UMSocialWechatHandler setWXAppId:@"wx547036f9011b9dfe" appSecret:@"c34b5a32ddf18816dd20e051127eca8f" url:@"http://itunes.apple.com/cn/app/yan-wen-zi/id866753915?ls=1&mt=8"];
 //    [UMSocialQQHandler setQQWithAppId:@"1102007075" appKey:@"g3M7AMNAoS1Ful43" url:@"http://www.html-js.com"];
     [UMSocialQQHandler setSupportWebView:NO];
+    
+    //创建sqlite文件
+    NSError *error = nil;
+    NSString *name = @"database";
+    NSArray *directoryPaths = NSSearchPathForDirectoriesInDomains
+    (NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [directoryPaths objectAtIndex:0];
+    
+    NSString *databaseFile = [NSString stringWithFormat:@"%@/database.sqlite",documentsDirectoryPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:databaseFile]){
+        NSLog(@"create database:%@",databaseFile);
+        [[NSData data] writeToFile:databaseFile options:NSDataWritingAtomic error:&error];
+        [[FavManager shareManager] createTable];
+        [[StoryManager shareManager] createTable];
+        
+    }else{
+        NSLog(@"use database:%@",databaseFile);
+    }
+    
+    
     return YES;
 }
 

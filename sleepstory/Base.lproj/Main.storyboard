@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C2061" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
@@ -453,7 +453,7 @@
                                                     </mask>
                                                 </variation>
                                                 <connections>
-                                                    <action selector="prev:" destination="vXZ-lx-hvc" eventType="touchDown" id="duW-kp-17c"/>
+                                                    <action selector="fav:" destination="vXZ-lx-hvc" eventType="touchDown" id="K7f-ut-o0O"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p92-2p-uao">
@@ -815,6 +815,7 @@
                         <outlet property="descLabel" destination="wiF-AZ-vbF" id="P5J-Jc-MCF"/>
                         <outlet property="downloadPercent" destination="MEu-rQ-YeC" id="h2h-DF-P8c"/>
                         <outlet property="downloadProgressBar" destination="XWY-rG-BH7" id="RQu-Ts-m1X"/>
+                        <outlet property="favButton" destination="25A-7D-NOf" id="6uD-J9-chO"/>
                         <outlet property="navBar" destination="Fte-zj-PVU" id="Hw8-iz-Hh2"/>
                         <outlet property="nowTimeLabel" destination="80z-fu-Kvl" id="0k0-7D-OWa"/>
                         <outlet property="playButton" destination="gv0-sh-2K4" id="NBK-fb-aJb"/>
@@ -868,10 +869,10 @@
             </objects>
             <point key="canvasLocation" x="816" y="456.75"/>
         </scene>
-        <!--Table View Controller-->
+        <!--我的收藏-->
         <scene sceneID="Ghd-U9-bym">
             <objects>
-                <tableViewController storyboardIdentifier="list" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cBX-YY-vbW" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="list" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cBX-YY-vbW" customClass="FavTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="7GK-aS-jzG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -903,6 +904,10 @@
                             <outlet property="delegate" destination="cBX-YY-vbW" id="gnB-AY-xqR"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="我的收藏" id="3q2-LS-xLa">
+                        <barButtonItem key="backBarButtonItem" title="返回" id="Q8M-Kl-xIh"/>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EvX-PH-Kcj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

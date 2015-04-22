@@ -125,6 +125,16 @@
 		85E9B1DD1AD4380100C0BA65 /* topic-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1DC1AD4380100C0BA65 /* topic-256.png */; };
 		85E9B1E01AD574D500C0BA65 /* YDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1DF1AD574D500C0BA65 /* YDSlider.m */; };
 		85E9B1E21AD5846900C0BA65 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E9B1E11AD5846900C0BA65 /* MediaPlayer.framework */; };
+		90C7788A1AE660F000F06E38 /* FavManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778891AE660F000F06E38 /* FavManager.m */; };
+		90C7788F1AE6934100F06E38 /* flower-2-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 90C7788E1AE6934100F06E38 /* flower-2-256.png */; };
+		90C7789E1AE69FE400F06E38 /* ATMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778921AE69FE400F06E38 /* ATMHud.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		90C7789F1AE69FE400F06E38 /* ATMHudQueueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778951AE69FE400F06E38 /* ATMHudQueueItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		90C778A01AE69FE400F06E38 /* ATMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778971AE69FE400F06E38 /* ATMHudView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		90C778A11AE69FE400F06E38 /* ATMProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778991AE69FE400F06E38 /* ATMProgressLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		90C778A21AE69FE400F06E38 /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C7789B1AE69FE400F06E38 /* ATMSoundFX.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		90C778A31AE69FE400F06E38 /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C7789D1AE69FE400F06E38 /* ATMTextLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		90C778A61AE6A50300F06E38 /* FavTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778A51AE6A50300F06E38 /* FavTableViewController.m */; };
+		90C778A91AE6A5D000F06E38 /* StoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C778A81AE6A5D000F06E38 /* StoryManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -351,6 +361,26 @@
 		85E9B1DE1AD574D500C0BA65 /* YDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDSlider.h; sourceTree = "<group>"; };
 		85E9B1DF1AD574D500C0BA65 /* YDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDSlider.m; sourceTree = "<group>"; };
 		85E9B1E11AD5846900C0BA65 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		90C778881AE660F000F06E38 /* FavManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavManager.h; sourceTree = "<group>"; };
+		90C778891AE660F000F06E38 /* FavManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavManager.m; sourceTree = "<group>"; };
+		90C7788E1AE6934100F06E38 /* flower-2-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flower-2-256.png"; sourceTree = "<group>"; };
+		90C778911AE69FE400F06E38 /* ATMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHud.h; sourceTree = "<group>"; };
+		90C778921AE69FE400F06E38 /* ATMHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHud.m; sourceTree = "<group>"; };
+		90C778931AE69FE400F06E38 /* ATMHudDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudDelegate.h; sourceTree = "<group>"; };
+		90C778941AE69FE400F06E38 /* ATMHudQueueItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudQueueItem.h; sourceTree = "<group>"; };
+		90C778951AE69FE400F06E38 /* ATMHudQueueItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHudQueueItem.m; sourceTree = "<group>"; };
+		90C778961AE69FE400F06E38 /* ATMHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudView.h; sourceTree = "<group>"; };
+		90C778971AE69FE400F06E38 /* ATMHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHudView.m; sourceTree = "<group>"; };
+		90C778981AE69FE400F06E38 /* ATMProgressLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMProgressLayer.h; sourceTree = "<group>"; };
+		90C778991AE69FE400F06E38 /* ATMProgressLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMProgressLayer.m; sourceTree = "<group>"; };
+		90C7789A1AE69FE400F06E38 /* ATMSoundFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMSoundFX.h; sourceTree = "<group>"; };
+		90C7789B1AE69FE400F06E38 /* ATMSoundFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMSoundFX.m; sourceTree = "<group>"; };
+		90C7789C1AE69FE400F06E38 /* ATMTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMTextLayer.h; sourceTree = "<group>"; };
+		90C7789D1AE69FE400F06E38 /* ATMTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMTextLayer.m; sourceTree = "<group>"; };
+		90C778A41AE6A50300F06E38 /* FavTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavTableViewController.h; sourceTree = "<group>"; };
+		90C778A51AE6A50300F06E38 /* FavTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavTableViewController.m; sourceTree = "<group>"; };
+		90C778A71AE6A5D000F06E38 /* StoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryManager.h; sourceTree = "<group>"; };
+		90C778A81AE6A5D000F06E38 /* StoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -358,10 +388,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				856616531ADFFD9D00D8F33E /* libsqlite3.dylib in Frameworks */,
 				856616591ADFFDB100D8F33E /* libz.dylib in Frameworks */,
 				856616571ADFFDAB00D8F33E /* libstdc++.dylib in Frameworks */,
 				856616551ADFFDA400D8F33E /* CoreTelephony.framework in Frameworks */,
-				856616531ADFFD9D00D8F33E /* libsqlite3.dylib in Frameworks */,
 				856616511ADFFD9400D8F33E /* CoreGraphics.framework in Frameworks */,
 				8566164F1ADFFD8A00D8F33E /* SystemConfiguration.framework in Frameworks */,
 				8566164D1ADFFD8000D8F33E /* libiconv.dylib in Frameworks */,
@@ -446,6 +476,8 @@
 		85275D521A8F9C2A00003EC4 /* sleepstory */ = {
 			isa = PBXGroup;
 			children = (
+				90C778901AE69FCB00F06E38 /* ATMHUD */,
+				90C778871AE660D800F06E38 /* db */,
 				85A70EB81AC452F900A5EB8C /* SDWebImage */,
 				85A70DD01ABB2C0900A5EB8C /* delegate */,
 				85A70DA91ABB240F00A5EB8C /* AFDownloadRequestOperation */,
@@ -479,6 +511,8 @@
 				858A37CE1AA5827900A06E68 /* index.html */,
 				85DF7B421ABB1A4500D0E113 /* ContainerViewController.h */,
 				85DF7B431ABB1A4500D0E113 /* ContainerViewController.m */,
+				90C778A41AE6A50300F06E38 /* FavTableViewController.h */,
+				90C778A51AE6A50300F06E38 /* FavTableViewController.m */,
 			);
 			path = sleepstory;
 			sourceTree = "<group>";
@@ -675,6 +709,7 @@
 			children = (
 				855CBDB01AE3D22B00EEB551 /* flower-256.png */,
 				8566160B1ADFD64E00D8F33E /* cover-6.png */,
+				90C7788E1AE6934100F06E38 /* flower-2-256.png */,
 				8566160C1ADFD64E00D8F33E /* cover-6p.png */,
 				856616091ADD6CDA00D8F33E /* cover.png */,
 				85E9B1BA1AC5C55A00C0BA65 /* pause-256.png */,
@@ -808,6 +843,37 @@
 			path = "NSDate-TimeAgo-master";
 			sourceTree = "<group>";
 		};
+		90C778871AE660D800F06E38 /* db */ = {
+			isa = PBXGroup;
+			children = (
+				90C778881AE660F000F06E38 /* FavManager.h */,
+				90C778891AE660F000F06E38 /* FavManager.m */,
+				90C778A71AE6A5D000F06E38 /* StoryManager.h */,
+				90C778A81AE6A5D000F06E38 /* StoryManager.m */,
+			);
+			name = db;
+			sourceTree = "<group>";
+		};
+		90C778901AE69FCB00F06E38 /* ATMHUD */ = {
+			isa = PBXGroup;
+			children = (
+				90C778911AE69FE400F06E38 /* ATMHud.h */,
+				90C778921AE69FE400F06E38 /* ATMHud.m */,
+				90C778931AE69FE400F06E38 /* ATMHudDelegate.h */,
+				90C778941AE69FE400F06E38 /* ATMHudQueueItem.h */,
+				90C778951AE69FE400F06E38 /* ATMHudQueueItem.m */,
+				90C778961AE69FE400F06E38 /* ATMHudView.h */,
+				90C778971AE69FE400F06E38 /* ATMHudView.m */,
+				90C778981AE69FE400F06E38 /* ATMProgressLayer.h */,
+				90C778991AE69FE400F06E38 /* ATMProgressLayer.m */,
+				90C7789A1AE69FE400F06E38 /* ATMSoundFX.h */,
+				90C7789B1AE69FE400F06E38 /* ATMSoundFX.m */,
+				90C7789C1AE69FE400F06E38 /* ATMTextLayer.h */,
+				90C7789D1AE69FE400F06E38 /* ATMTextLayer.m */,
+			);
+			name = ATMHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -903,6 +969,7 @@
 				85E9B1C01AC5C9D300C0BA65 /* playnext-256.png in Resources */,
 				8566162C1ADFF8A100D8F33E /* UMSCommentDetailController.xib in Resources */,
 				856616341ADFF8A100D8F33E /* UMSocialSDKResourcesNew.bundle in Resources */,
+				90C7788F1AE6934100F06E38 /* flower-2-256.png in Resources */,
 				856616331ADFF8A100D8F33E /* UMSShareListController.xib in Resources */,
 				858C9A511AADF5D100D14832 /* play.png in Resources */,
 				85275D5F1A8F9C2A00003EC4 /* Main.storyboard in Resources */,
@@ -977,6 +1044,7 @@
 			files = (
 				856616871AE01D5C00D8F33E /* DOUAudioFilePreprocessor.m in Sources */,
 				85A70EDE1AC452F900A5EB8C /* SDWebImageDecoder.m in Sources */,
+				90C7789F1AE69FE400F06E38 /* ATMHudQueueItem.m in Sources */,
 				85A70EE91AC452F900A5EB8C /* UIView+WebCacheOperation.m in Sources */,
 				85275D5C1A8F9C2A00003EC4 /* StoryViewController.m in Sources */,
 				856616831AE01D5C00D8F33E /* DOUAudioAnalyzer+Default.m in Sources */,
@@ -984,9 +1052,11 @@
 				85A70EE11AC452F900A5EB8C /* SDWebImageManager.m in Sources */,
 				85275D7B1A8F9CEA00003EC4 /* SYUtil.m in Sources */,
 				85E9B1D71AD17B4E00C0BA65 /* NSDate+Extension.swift in Sources */,
+				90C778A21AE69FE400F06E38 /* ATMSoundFX.m in Sources */,
 				85DF7B411AB5E91400D0E113 /* NCMusicEngine.m in Sources */,
 				856616931AE01D5C00D8F33E /* DOUSimpleHTTPRequest.m in Sources */,
 				85275D891A8F9EFB00003EC4 /* StoryModel.m in Sources */,
+				90C778A01AE69FE400F06E38 /* ATMHudView.m in Sources */,
 				85A70EDD1AC452F900A5EB8C /* SDWebImageCompat.m in Sources */,
 				85E9B1D81AD17B4E00C0BA65 /* NSDate+TimeAgo.m in Sources */,
 				85A70EE01AC452F900A5EB8C /* SDWebImageDownloaderOperation.m in Sources */,
@@ -1009,8 +1079,10 @@
 				856616911AE01D5C00D8F33E /* DOUEAGLView.m in Sources */,
 				856616891AE01D5C00D8F33E /* DOUAudioFrequencyAnalyzer.m in Sources */,
 				856616901AE01D5C00D8F33E /* DOUAudioVisualizer.m in Sources */,
+				90C7789E1AE69FE400F06E38 /* ATMHud.m in Sources */,
 				85275D851A8F9DF800003EC4 /* StoryView.m in Sources */,
 				856616841AE01D5C00D8F33E /* DOUAudioAnalyzer.m in Sources */,
+				90C778A91AE6A5D000F06E38 /* StoryManager.m in Sources */,
 				85A70EE41AC452F900A5EB8C /* UIImage+GIF.m in Sources */,
 				85A70EE51AC452F900A5EB8C /* UIImage+MultiFormat.m in Sources */,
 				85DF7B441ABB1A4500D0E113 /* ContainerViewController.m in Sources */,
@@ -1021,12 +1093,16 @@
 				858C9A4C1AADD82000D14832 /* FDLabelConfigViewController.m in Sources */,
 				85A70DC01ABB240F00A5EB8C /* AFDownloadRequestOperation.m in Sources */,
 				856616881AE01D5C00D8F33E /* DOUAudioFileProvider.m in Sources */,
+				90C7788A1AE660F000F06E38 /* FavManager.m in Sources */,
 				85A70DCF1ABB257500A5EB8C /* SVProgressHUD.m in Sources */,
 				85A70EDA1AC452F900A5EB8C /* MKAnnotationView+WebCache.m in Sources */,
 				85A70DC81ABB240F00A5EB8C /* AFXMLRequestOperation.m in Sources */,
 				8566168D1AE01D5C00D8F33E /* DOUAudioSpatialAnalyzer.m in Sources */,
+				90C778A61AE6A50300F06E38 /* FavTableViewController.m in Sources */,
 				8566168B1AE01D5C00D8F33E /* DOUAudioPlaybackItem.m in Sources */,
+				90C778A11AE69FE400F06E38 /* ATMProgressLayer.m in Sources */,
 				85A70EDF1AC452F900A5EB8C /* SDWebImageDownloader.m in Sources */,
+				90C778A31AE69FE400F06E38 /* ATMTextLayer.m in Sources */,
 				85A70EE31AC452F900A5EB8C /* UIButton+WebCache.m in Sources */,
 				85A70DC41ABB240F00A5EB8C /* AFJSONRequestOperation.m in Sources */,
 				856616861AE01D5C00D8F33E /* DOUAudioEventLoop.m in Sources */,

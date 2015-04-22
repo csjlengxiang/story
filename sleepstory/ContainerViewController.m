@@ -10,7 +10,7 @@
 #import "StoryViewController.h"
 #import "AFNetworking/AFNetworking.h"
 #import "SVProgressHUD.h"
-
+#import "StoryManager.h"
 @interface ContainerViewController ()
 {
     StoryViewController *viewController1;
@@ -47,13 +47,33 @@
     nowPage = 1;
     hasNoMore = false;
     //开始请求故事的信息
-    [self requestList:nowPage];
+//    [self requestList:nowPage];
     
     coverView = [[UIImageView alloc] init];
     coverView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     coverView.image = [UIImage imageNamed:@"cover.png"];
     [self.view addSubview:coverView];
     
+    NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
+    storys = localStorys;
+    
+    int firstId = 0;
+    if([localStorys count]>0){
+        StoryModel *s = [localStorys objectAtIndex:0];
+        firstId = s.ID;
+        [self initView];
+    }else{
+        
+    }
+    [[StoryManager shareManager] getAllFromOnlineWithFirstID:firstId success:^(NSMutableArray *storys) {
+        for(int i=0;i<[storys count];i++){
+            [[StoryManager shareManager] add:[storys objectAtIndex:i]];
+        }
+        NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
+        storys = localStorys;
+        [self initView];
+    }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,19 +83,25 @@
 -(void)initView
 {
 
-
+    if([storys count]>0){
         viewController1.story = storys[nowIndex];
-    
-    
+        
+        
         [self.view bringSubviewToFront:viewController1.view];
-
-//        viewController2.story = storys[nowIndex+1];
-//        [self addChildViewController:viewController2];
-//        [self.view addSubview:viewController2.view];
-//        [self.view bringSubviewToFront:viewController2.view];
+        
+        //        viewController2.story = storys[nowIndex+1];
+        //        [self addChildViewController:viewController2];
+        //        [self.view addSubview:viewController2.view];
+        //        [self.view bringSubviewToFront:viewController2.view];
+        
+        [viewController1  reinit];
+        activeStoryController = viewController1;
+        [self.view bringSubviewToFront:coverView];
+        [self performSelector:@selector(openbook) withObject:self afterDelay:1];
+    }else{
+        
+    }
     
-    [viewController1  reinit];
-    activeStoryController = viewController1;
 //    [viewController2 reinit];
 }
 - (void)requestList:(int)page{
@@ -108,8 +134,7 @@
         if(page==1){
            [self initView];
         }
-        [self.view bringSubviewToFront:coverView];
-        [self performSelector:@selector(openbook) withObject:self afterDelay:1];
+        
 //                [self openbook];
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
