@@ -19,6 +19,7 @@
 #import "DOUAudioStreamer.h"
 #import "FavManager.h"
 #import "ATMHud.h"
+#import "BookViewController.h"
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
 static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
@@ -46,7 +47,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     IBOutlet UILabel *nowTimeLabel;
     IBOutlet UILabel *totalTimeLabel;
     
-    IBOutlet RoundIconButton *modeButton;
+    IBOutlet UIButton *modeButton;
     IBOutlet UIButton *favButton;
     IBOutlet RoundLabel *viewCountLabel;
     IBOutlet RoundLabel *dayInfoLabel;
@@ -56,6 +57,11 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     DOUAudioStreamer *streamer;
     NSTimer *_timer;
     ATMHud * hud;
+    
+    BookViewController *bookview;
+    IBOutlet NSLayoutConstraint *coverLeft;
+    IBOutlet NSLayoutConstraint *coverRight;
+    IBOutlet NSLayoutConstraint *coverTop;
 }
 @end
 
@@ -65,21 +71,26 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     [super viewDidLoad];
     isPlaying = NO;
     totalDuration = 0;
-    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    
     self.view.backgroundColor = [SYUtil colorWithHex:@"ffffff"];
     descLabel.lineBreakMode = NSLineBreakByWordWrapping;
     descLabel.numberOfLines = 4;
+
     descLabel.preferredMaxLayoutWidth = self.view.frame.size.width;
     // Override point for customization after application launch.
     
     [swipeGR addTarget:self action:@selector(nextStory)];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    [self setNeedsStatusBarAppearanceUpdate];
     navBar.backgroundColor = [SYUtil colorWithHex:@"e15151"];
     [coverView.layer setCornerRadius:10];
-    [coverView.layer setMasksToBounds:YES];
-    hud = [[ATMHud alloc] initWithDelegate:self];
+    [coverView.layer setMasksToBounds:YES];    hud = [[ATMHud alloc] initWithDelegate:self];
     [self.view addSubview:hud.view];
-    
+  if(SCREEN_HEIGHT<500){
+      descLabel.hidden = YES;
+
+  }
 //    progressSlider = [[YDSlider alloc] init];
 //    progressSlider.frame = CGRectMake(0, 0, downloadProgressBar.frame.size.width, 3);
 //    
@@ -91,19 +102,34 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
 -(void)reinit
 {
+    if(streamer!=nil){
+        [streamer removeObserver:self forKeyPath:@"status"];
+        [streamer removeObserver:self forKeyPath:@"duration"];
+        [streamer removeObserver:self forKeyPath:@"bufferingRatio"];
+        
+        streamer = nil;
+    }
+    
+    
+    [[StoryManager shareManager] getOneFromOnlineWithID:self.story.ID success:^(StoryModel *_story) {
+        self.story = _story;
+        [self updateVisit];
+    }];
+    bookview = nil;
     descLabel.text =self.story.desc;
     titleLabel.text = self.story.title;
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init] ;
-//    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
-[dateFormatter setDateFormat:@"yyyy年MM月dd日"];
-    dayInfoLabel.text  = [NSString stringWithFormat:@"  %@·第%d期  ",[dateFormatter stringFromDate:self.story.time],self.story.num];
+//    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init] ;
+////    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+//[dateFormatter setDateFormat:@"yyyy年MM月dd日"];
+    dayInfoLabel.text  = [NSString stringWithFormat:@"  第%d期  ",self.story.num];
     
     viewCountLabel.text =[NSString stringWithFormat:@"  浏览次数:%d  ",self.story.visit_count] ;
     NSString *encodeURI = [self.story.cover stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [coverView sd_setImageWithURL:[NSURL URLWithString:encodeURI]];
+
+    [coverView sd_setImageWithURL:[NSURL URLWithString:encodeURI] placeholderImage:[UIImage imageNamed:@"loading.png"]];
     
 //    numTitleLabel.text = [NSString stringWithFormat:@"第%d期",self.story.num];
-    coverView.bounds =CGRectMake(0, 0, 100, 100);
+//    coverView.bounds =CGRectMake(0, 0, 100, 100);
     //故事封面的弹性效果
     [self performSelector:@selector(animPic)
                withObject:nil
@@ -114,9 +140,80 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
     nowTimeLabel.text = @"00:00";
     totalTimeLabel.text = @"00:00";
-    [modeButton drawIcon:[UIImage imageNamed:@"repeat-256.png"] text:@"全部循环"];
+    if(self.story.zip==nil||[@"(null)" isEqualToString:self.story.zip]){
+        
+        [modeButton setBackgroundImage:[UIImage imageNamed:@"bookmark-gray.png"] forState:UIControlStateNormal];
+        modeButton.tag = 2;
+    }else{
+        [modeButton setBackgroundImage:[UIImage imageNamed:@"bookmark-256.png"] forState:UIControlStateNormal];
+        modeButton.tag = 1;
+    }
+//    [modeButton drawIcon:[UIImage imageNamed:@"repeat-256.png"] text:@"全部循环"];
     [self checkFavStatus];
     [self configPlayingInfo];
+    [self.view bringSubviewToFront:hud.view];
+    
+}
+-(void)updateVisit
+{
+    viewCountLabel.text =[NSString stringWithFormat:@"  浏览次数:%d  ",self.story.visit_count] ;
+}
+-(void)showBookView
+{
+    
+        NSDictionary * options = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:UIPageViewControllerSpineLocationMid] forKey:UIPageViewControllerOptionSpineLocationKey];
+        
+        //    UIPageViewController *pageViewController = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:options];
+        bookview = [[BookViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:options];
+        [bookview initWithZipUrl:@"" id:self.story.ID];
+        [self presentViewController:bookview animated:YES completion:^{
+            
+        }];
+    
+    
+}
+-(IBAction)showBookView:(UIButton *)sender
+{
+    if(sender.tag == 1){
+        if([[StoryManager shareManager] hasZip:self.story.ID]){
+            if(bookview!=nil){
+                [self presentViewController:bookview animated:YES completion:^{
+                    
+                }];
+            }else{
+                [self showBookView];
+            }
+        }else{
+        //开始下载
+        [hud setCaption:@"下载绘本中"];
+        [hud show];
+        [hud hideAfter:2];
+        [[StoryManager shareManager] downloadZip:self.story.zip storyID:self.story.ID success:^{
+            [hud setCaption:@"绘本下载完成"];
+            [hud show];
+            [hud hideAfter:2];
+        } error:^{
+            
+        }];
+        }
+    }else{
+        
+            [hud setCaption:@"此绘本暂时没有预览"];
+            [hud show];
+            [hud hideAfter:2];
+        
+
+    }
+    
+}
+-(void)hideBookView
+{
+    if(bookview!=nil){
+        [bookview dismissViewControllerAnimated:YES completion:^{
+            
+            
+        }];
+    }
 }
 -(void)checkFavStatus
 {
@@ -153,7 +250,14 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     //        [coverView pop_addAnimation:anim2 forKey:@"size2"];
     //    };
     anim.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-100, [UIScreen mainScreen].bounds.size.width-100)];
-    anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-60, [UIScreen mainScreen].bounds.size.width-60)];
+    anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-40, [UIScreen mainScreen].bounds.size.width-40)];
+    NSLog(@"SCREEN_HEIGHT:%f",SCREEN_HEIGHT);
+    if(SCREEN_HEIGHT<500){
+        anim.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-120, [UIScreen mainScreen].bounds.size.width-120)];
+       anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, -50, [UIScreen mainScreen].bounds.size.width-90, [UIScreen mainScreen].bounds.size.width-90)];
+          coverTop.constant = 0;
+    }
+   
     [coverView pop_addAnimation:anim forKey:@"size2"];
     
 }
@@ -190,6 +294,9 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
             [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
             [self performSelector:@selector(configPlayingInfo) withObject:self afterDelay:1.0f];
             _timer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(_timerAction:) userInfo:nil repeats:YES];
+            if([[StoryManager shareManager] hasZip:self.story.ID]){
+            [self showBookView];
+            }
         }else{
             [streamer play];
 
@@ -224,24 +331,34 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 }
 - (void)_timerAction:(id)timer
 {
-  
-    if([streamer duration]>0&&[streamer expectedLength]>0){
-        //设置播放进度条的进度
-        [self setPlayProgress:[streamer currentTime] / [streamer duration]];
-        totalDuration = [streamer duration];
-        int minute = [streamer currentTime]/60;
-        int secend = (int)[streamer currentTime]%60;
-        //当前播放到得秒数
-        nowTimeLabel.text = [NSString stringWithFormat:@"%@:%@",[self getTwoTimeString:minute],[self getTwoTimeString:secend]];
-        int duration_m = [streamer duration]/60;
-        int duration_s = (int)[streamer duration]%60;
-        //总共需要播放的秒数
-        totalTimeLabel.text =[NSString stringWithFormat:@"%@:%@",[self getTwoTimeString:duration_m],[self getTwoTimeString:duration_s]];
-        NSLog(@"[streamer receivedLength]:%f",(float)[streamer receivedLength]/(float)[streamer expectedLength]);
-        [self setDowloadProgress:(float)[streamer receivedLength]/(float)[streamer expectedLength]];
-        
-
+    @try {
+        if([streamer duration]>0&&[streamer expectedLength]>0){
+            //设置播放进度条的进度
+            [self setPlayProgress:[streamer currentTime] / [streamer duration]];
+            totalDuration = [streamer duration];
+            int minute = [streamer currentTime]/60;
+            int secend = (int)[streamer currentTime]%60;
+            //当前播放到得秒数
+            nowTimeLabel.text = [NSString stringWithFormat:@"%@:%@",[self getTwoTimeString:minute],[self getTwoTimeString:secend]];
+            int duration_m = [streamer duration]/60;
+            int duration_s = (int)[streamer duration]%60;
+            //总共需要播放的秒数
+            totalTimeLabel.text =[NSString stringWithFormat:@"%@:%@",[self getTwoTimeString:duration_m],[self getTwoTimeString:duration_s]];
+            NSLog(@"nowtime:%f",(float)[streamer currentTime]);
+            [self setDowloadProgress:(float)[streamer receivedLength]/(float)[streamer expectedLength]];
+            if(bookview!=nil){
+                [bookview playTo:[streamer currentTime] total:[streamer duration]];
+            }
+            
+        }
     }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
        }
 - (void)_updateBufferingStatus
 {
@@ -255,6 +372,10 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     }
     else{
         [playButton setBackgroundImage:[UIImage imageNamed:@"play-256.png"] forState:UIControlStateNormal];
+    }
+    if(streamer.status == DOUAudioStreamerFinished){
+        [self hideBookView];
+        [self.containerDelegate playNext];
     }
 }
 //播放
@@ -359,13 +480,23 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 {
 
     float bgwidth = progressBg.frame.size.width;
-    downloadPercent.constant = bgwidth - bgwidth*v;
+    if(bgwidth!=0){
+        downloadPercent.constant = bgwidth - bgwidth*v;
+    }else{
+        
+    }
+    
 }
 -(void)setPlayProgress:(float)v
 {
 
     float bgwidth = progressBg.frame.size.width;
-    progressPercent.constant = bgwidth - bgwidth*v;
+    if(bgwidth!=0){
+        progressPercent.constant = bgwidth - bgwidth*v;
+    }else{
+        
+    }
+    
 }
 -(IBAction)next:(id)sender
 {
@@ -384,10 +515,14 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 }
 -(IBAction)share:(id)sender
 {
+    UMSocialUrlResource *urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:self.story.cover];
+    [UMSocialData defaultData].urlResource = urlResource;
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = [NSString stringWithFormat:@"http://www.html-js.com/music/%d",self.story.ID];
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = [NSString stringWithFormat:@"http://www.html-js.com/music/%d",self.story.ID];
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"53536f8056240bac64008793"
-                                      shareText:@"推荐个很棒的【颜文字】APP，简直把我萌化了，从此成为卖萌小能手 http://itunes.apple.com/cn/app/yan-wen-zi/id866753915?ls=1&mt=8"
-                                     shareImage:[UIImage imageNamed:@"shot.png"]
+                                         appKey:@"552fc46efd98c5cf6c0008bd"
+                                      shareText:[NSString stringWithFormat:@"二十一点·睡前故事 第%d期《%@》点击收听 http://www.html-js.com/music/%d",self.story.num,self.story.title,self.story.ID ]
+                                     shareImage:nil
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
                                        delegate:nil];
 }
@@ -423,4 +558,34 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, frame.size.width*1.5f, frame.size.height*1.5f)];
     [button pop_addAnimation:anim forKey:@"size"];
 }
+-(IBAction)menuPress:(id)sender
+{
+//    [self rotate360DegreeWithImageView:sender];
+}
+- (UIButton *)rotate360DegreeWithImageView:(UIButton *)imageView{
+    CABasicAnimation *animation = [ CABasicAnimation
+                                   animationWithKeyPath: @"transform" ];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    
+    //围绕Z轴旋转，垂直与屏幕
+    animation.toValue = [ NSValue valueWithCATransform3D:
+                         
+                         CATransform3DMakeRotation(M_PI, 0.0, 0.0, 1.0) ];
+    animation.duration = 0.3;
+    //旋转效果累计，先转180度，接着再旋转180度，从而实现360旋转
+    animation.cumulative = YES;
+    animation.repeatCount = 6;
+    
+    //    //在图片边缘添加一个像素的透明区域，去图片锯齿
+    //    CGRect imageRrect = CGRectMake(0, 0,imageView.frame.size.width, imageView.frame.size.height);
+    //    UIGraphicsBeginImageContext(imageRrect.size);
+    //    [imageView.image drawInRect:CGRectMake(1,1,imageView.frame.size.width-2,imageView.frame.size.height-2)];
+    //    imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    //    UIGraphicsEndImageContext();
+    //
+    [imageView.layer addAnimation:animation forKey:nil];
+    return imageView;
+}
+
+
 @end

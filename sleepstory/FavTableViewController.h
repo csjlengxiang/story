@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface FavTableViewController : UITableViewController
-
+#import "ContainerDelegate.h"
+#import "FavStoryCell.h"
+@interface FavTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@property id<ContainerDelegate> containerDelegate;
 @end

@@ -17,4 +17,5 @@
 @property int visit_count; //故事被播放的次数
 @property int ID; //故事的id
 @property NSDate *time; //这个故事的日期
+@property NSString *zip;//故事包的zip地址
 @end

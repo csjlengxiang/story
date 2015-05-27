@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 html-js. All rights reserved.
 //
 #import "sqlite3.h"
+#import "StoryModel.h"
+#import "StoryManager.h"
 #import <Foundation/Foundation.h>
 #define kDatabaseName @"database.sqlite"
 @interface FavManager : NSObject

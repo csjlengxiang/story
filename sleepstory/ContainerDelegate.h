@@ -14,5 +14,10 @@
 -(void)playNext;
 -(void)playPrev;
 -(void)tolist;
+-(void)toStory:(int)ID;
+-(void)toAllStoryList;
+-(void)toFavList;
+-(void)share:(NSString *)text url:(NSString *)url image:(NSString *)image;
+-(void)openWebView:(NSString *)url;
 @end
 #endif

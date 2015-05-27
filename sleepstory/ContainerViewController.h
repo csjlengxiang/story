@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ContainerDelegate.h"
-@interface ContainerViewController : UIViewController<ContainerDelegate>
-
+#import "FavTableViewController.h"
+#import "NSObject+VCLReachabilitySubscriber.h"
+@interface ContainerViewController : UIViewController<ContainerDelegate,VCLReachabilitySubscriber>
+-(void)updateStoryData;
 @end

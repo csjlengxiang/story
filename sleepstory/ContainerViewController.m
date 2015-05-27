@@ -9,8 +9,14 @@
 #import "ContainerViewController.h"
 #import "StoryViewController.h"
 #import "AFNetworking/AFNetworking.h"
-#import "SVProgressHUD.h"
+
 #import "StoryManager.h"
+#import "ATMHud.h"
+#import "UMSocial.h"
+#import "MenuViewController.h"
+#import "AllStoryTableViewController.h"
+#import "WebViewController.h"
+
 @interface ContainerViewController ()
 {
     StoryViewController *viewController1;
@@ -21,6 +27,11 @@
     NSMutableArray *storys;
     StoryViewController *activeStoryController;
     UIImageView *coverView;
+    StoryModel *nowStory;
+    ATMHud *hud;
+    int firstId;
+    MenuViewController *menuView;
+    NetworkStatus lastNetStatus;
 }
 @end
 
@@ -28,21 +39,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    hud = [[ATMHud alloc] initWithDelegate:self];
+    
     self.navigationController.navigationBar.barTintColor = [SYUtil colorWithHex:@"e15151"];
     self.navigationController.navigationBar.translucent = NO;
     [self setNeedsStatusBarAppearanceUpdate];
     storys = [[NSMutableArray alloc] init];
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    NSString *storyName = @"Main";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        storyName = @"ipad";
+    }
+    UIStoryboard *story = [UIStoryboard storyboardWithName:storyName bundle:nil];
     //生成两个界面，用来翻页的切换
     viewController1 = [story instantiateViewControllerWithIdentifier:@"main"];
     viewController2 = [story instantiateViewControllerWithIdentifier:@"main"];
     viewController1.containerDelegate = self;
     viewController2.containerDelegate = self;
+    
+    [self.view addSubview:viewController1.view];
+    [self.view addSubview:viewController2.view];
     //把页面添加到容器中
     [self addChildViewController:viewController1];
     [self addChildViewController:viewController2];
-    [self.view addSubview:viewController1.view];
-    [self.view addSubview:viewController2.view];
     nowIndex = 0;
     nowPage = 1;
     hasNoMore = false;
@@ -52,12 +71,18 @@
     coverView = [[UIImageView alloc] init];
     coverView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     coverView.image = [UIImage imageNamed:@"cover.png"];
+    if(SCREEN_HEIGHT<500){
+        coverView.image = [UIImage imageNamed:@"c-4.png"];
+    }
+    if(SCREEN_HEIGHT == 1024){
+        coverView.image = [UIImage imageNamed:@"c-ipad.png"];
+    }
     [self.view addSubview:coverView];
     
     NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
     storys = localStorys;
     
-    int firstId = 0;
+    firstId = 0;
     if([localStorys count]>0){
         StoryModel *s = [localStorys objectAtIndex:0];
         firstId = s.ID;
@@ -65,47 +90,94 @@
     }else{
         
     }
-    [[StoryManager shareManager] getAllFromOnlineWithFirstID:firstId success:^(NSMutableArray *storys) {
-        for(int i=0;i<[storys count];i++){
-            [[StoryManager shareManager] add:[storys objectAtIndex:i]];
+    [self.view addSubview:hud.view];
+    [hud setCaption:@"初始化数据中，请稍候"];
+    [hud show];
+//    [hud hideAfter:2.0];
+    [[StoryManager shareManager] getAllFromOnlineWithFirstID:firstId success:^(NSMutableArray *_storys) {
+        for(int i=0;i<[_storys count];i++){
+            [[StoryManager shareManager] add:[_storys objectAtIndex:i]];
         }
         NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
         storys = localStorys;
-        [self initView];
+        [hud hide];
+        if([localStorys count]>0){
+            
+            StoryModel *s = [localStorys objectAtIndex:0];
+            int lastId = s.ID;
+            if(lastId!=firstId){
+                [self initView];
+                
+                [self openbook];
+                firstId = lastId;
+            }
+        }else{
+            
+        }
     }];
+    lastNetStatus = ReachableViaWiFi;
+    [self bindNetEvent];
+    
+//    [self addChildViewController:bookview];
+//        [[self view] addSubview:[bookview view]];
+//        [bookview didMoveToParentViewController:self];
+//    
+//
+//    [self performSelector:@selector(showBookView) withObject:self afterDelay:1.0f];
+//    
 
 }
 
+-(void)updateStoryData
+{
+    NSLog(@"唤醒，重新请求");
+    [[StoryManager shareManager] getAllFromOnlineWithFirstID:firstId success:^(NSMutableArray *_storys) {
+        for(int i=0;i<[_storys count];i++){
+            [[StoryManager shareManager] add:[_storys objectAtIndex:i]];
+        }
+        NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
+        storys = localStorys;
+        [hud hide];
+        if([localStorys count]>0){
+            
+            StoryModel *s = [localStorys objectAtIndex:0];
+            int lastId = s.ID;
+            if(lastId!=firstId){
+                [self initView];
+                
+                [self openbook];
+                firstId = lastId;
+            }
+        }else{
+            
+        }
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 -(void)initView
 {
-
-    if([storys count]>0){
         viewController1.story = storys[nowIndex];
-        
-        
+        nowStory =storys[nowIndex];
+    
         [self.view bringSubviewToFront:viewController1.view];
         
         //        viewController2.story = storys[nowIndex+1];
         //        [self addChildViewController:viewController2];
         //        [self.view addSubview:viewController2.view];
         //        [self.view bringSubviewToFront:viewController2.view];
-        
         [viewController1  reinit];
+    
         activeStoryController = viewController1;
         [self.view bringSubviewToFront:coverView];
         [self performSelector:@selector(openbook) withObject:self afterDelay:1];
-    }else{
-        
-    }
     
 //    [viewController2 reinit];
 }
 - (void)requestList:(int)page{
-    [SVProgressHUD showWithStatus:@"加载中"];
+//    [SVProgressHUD showWithStatus:@"加载中"];
     if(!hasNoMore){
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.html-js.com/music.json?page=%d",page]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -130,7 +202,7 @@
             [storys addObject:story];
         }
         
-        [SVProgressHUD showSuccessWithStatus:@"加载成功"];
+//        [SVProgressHUD showSuccessWithStatus:@"加载成功"];
         if(page==1){
            [self initView];
         }
@@ -162,11 +234,42 @@
 }
 -(void)nextStory
 {
-    nowIndex++;
+   StoryModel *tempStory = [[StoryManager shareManager] getNext:nowStory.ID];
+    
+    if(tempStory==nil){
+        [hud setCaption:@"已经是最新啦！"];
+        [hud show];
+        [hud hideAfter:1];
+
+        return;
+    }else{
+        nowStory = tempStory;
+    }
+    
+    [self nextPage];
+}
+-(void)prevStory
+{
+    StoryModel *tempStory = [[StoryManager shareManager] getPrev:nowStory.ID];
+    
+    if(tempStory==nil){
+        [hud setCaption:@"已经是最新啦！"];
+        [hud show];
+        [hud hideAfter:1];
+        return;
+    }else{
+        nowStory = tempStory;
+    }
+    nowIndex--;
+    
+    [self prevPage];
+}
+-(void)nextPage
+{
     [viewController2 stop];
     [viewController1 stop];
     if(nowIndex%2==1){
-        viewController2.story = storys[nowIndex];
+        viewController2.story = nowStory;
         [viewController2 reinit];
         CATransition *  tran=[CATransition animation];
         tran.type = @"pageCurl";
@@ -181,12 +284,48 @@
         [viewController1 stopAll];
         activeStoryController = viewController2;
     }else{
-        viewController1.story = storys[nowIndex];
+        viewController1.story = nowStory;
         [viewController1  reinit];
         CATransition *  tran=[CATransition animation];
         tran.type = @"pageCurl";
         tran.subtype = kCATransitionFromRight;
         tran.fillMode = kCAFillModeForwards;
+        [tran setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [tran setRemovedOnCompletion:NO];
+        tran.duration=1.0f;
+        tran.delegate=self;
+        [self.view.layer addAnimation:tran forKey:@"dd"];
+        [self.view bringSubviewToFront:viewController1.view];
+        [viewController2 stopAll];
+        activeStoryController = viewController1;
+    }
+}
+-(void)prevPage
+{
+    [viewController2 stop];
+    [viewController1 stop];
+    if(nowIndex%2==1){
+        viewController2.story = nowStory;
+        [viewController2 reinit];
+        CATransition *  tran=[CATransition animation];
+        tran.type = @"pageUnCurl";
+        tran.subtype = kCATransitionFromRight;
+        tran.fillMode = kCAFillModeBackwards;
+        [tran setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [tran setRemovedOnCompletion:NO];
+        tran.duration=1.0f;
+        tran.delegate=self;
+        [self.view.layer addAnimation:tran forKey:@"dd"];
+        [self.view bringSubviewToFront:viewController2.view];
+        [viewController1 stopAll];
+        activeStoryController = viewController2;
+    }else{
+        viewController1.story = nowStory ;
+        [viewController1  reinit];
+        CATransition *  tran=[CATransition animation];
+        tran.type = @"pageUnCurl";
+        tran.subtype = kCATransitionFromRight;
+        tran.fillMode = kCAFillModeBackwards;
         [tran setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         [tran setRemovedOnCompletion:NO];
         tran.duration=1.0f;
@@ -197,56 +336,6 @@
         activeStoryController = viewController1;
     }
 
-    
-    if(nowIndex>=[storys count]-3){
-        nowPage++;
-        [self requestList:nowPage];
-    }
-}
--(void)prevStory
-{
-    
-    if(nowIndex<=0){
-        nowIndex = 0;
-        [SVProgressHUD showErrorWithStatus:@"已经是最新啦！" duration:1];
-        return;
-    }
-    nowIndex--;
-    [viewController2 stop];
-    [viewController1 stop];
-    if(nowIndex%2==1){
-        viewController2.story = storys[nowIndex];
-        [viewController2 reinit];
-        CATransition *  tran=[CATransition animation];
-        tran.type = @"pageUnCurl";
-        tran.subtype = kCATransitionFromRight;
-        tran.fillMode = kCAFillModeBackwards;
-        [tran setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        [tran setRemovedOnCompletion:NO];
-        tran.duration=1.0f;
-        tran.delegate=self;
-        [self.view.layer addAnimation:tran forKey:@"dd"];
-        [self.view bringSubviewToFront:viewController2.view];
-        [viewController1 stopAll];
-        activeStoryController = viewController2;
-    }else{
-        viewController1.story = storys[nowIndex];
-        [viewController1  reinit];
-        CATransition *  tran=[CATransition animation];
-        tran.type = @"pageUnCurl";
-        tran.subtype = kCATransitionFromRight;
-        tran.fillMode = kCAFillModeBackwards;
-        [tran setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        [tran setRemovedOnCompletion:NO];
-        tran.duration=1.0f;
-        tran.delegate=self;
-        [self.view.layer addAnimation:tran forKey:@"dd"];
-        [self.view bringSubviewToFront:viewController1.view];
-        [viewController2 stopAll];
-        activeStoryController = viewController1;
-    }
-    
-    
 }
 -(IBAction)next:(id)sender
 {
@@ -256,6 +345,7 @@
 {
     [self prevStory];
 }
+
 -(void)playNext
 {
     [self nextStory];
@@ -270,15 +360,132 @@
         [activeStoryController playOrStop];
     }
 }
+-(void)toStory:(int)ID
+{
+    nowStory = [[StoryManager shareManager] get:ID];
+    if(nowStory!=nil){
+        [self nextPage];
+    }
+}
 -(void)tolist
 {
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *c = [story instantiateViewControllerWithIdentifier:@"list"];
+//    NSString *storyName = @"Main";
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//    {
+//        storyName = @"ipad";
+//    }
+//
+//    UIStoryboard *story = [UIStoryboard storyboardWithName:storyName bundle:nil];
+//    FavTableViewController *c = [story instantiateViewControllerWithIdentifier:@"fav"];
+//    c.containerDelegate = self;
+//    [self presentViewController:c  animated:YES completion:^{
+//        
+//    }];
+//
+    [self showMenu];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+
+
+-(void)showMenu{
+    if(menuView==nil){
+        menuView  = [[MenuViewController alloc] init];
+        [menuView setPopinTransitionStyle:BKTPopinTransitionStyleSpringySlide];
+        float menuW = 240;
+        float menuH = 290;
+        menuView.containerDelegate = self;
+        [menuView setPreferedPopinContentSize:CGSizeMake(menuW, menuH)];
+        [menuView setPopinTransitionDirection:BKTPopinTransitionDirectionTop];
+    }
+    
+    
+    [self presentPopinController:menuView animated:YES completion:^{
+        NSLog(@"Popin presented !");
+    }];
+}
+-(void)toAllStoryList{
+        NSString *storyName = @"Main";
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            storyName = @"ipad";
+        }
+    
+        UIStoryboard *story = [UIStoryboard storyboardWithName:storyName bundle:nil];
+        AllStoryTableViewController *c = [story instantiateViewControllerWithIdentifier:@"all"];
+        c.containerDelegate = self;
+        [self presentViewController:c  animated:YES completion:^{
+            
+        }];
+}
+-(void)toFavList{
+    NSString *storyName = @"Main";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        storyName = @"ipad";
+    }
+    
+    UIStoryboard *story = [UIStoryboard storyboardWithName:storyName bundle:nil];
+    FavTableViewController *c = [story instantiateViewControllerWithIdentifier:@"fav"];
+    c.containerDelegate = self;
     [self presentViewController:c  animated:YES completion:^{
         
     }];
 }
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
+
+-(void)share:(NSString *)text url:(NSString *)url image:(NSString *)image
+{
+    UMSocialUrlResource *urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:image];
+
+    [UMSocialData defaultData].urlResource = urlResource;
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
+   
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"552fc46efd98c5cf6c0008bd"
+                                      shareText:text
+                                     shareImage:nil
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                       delegate:nil];
+}
+-(void)openWebView:(NSString *)url
+{
+    NSString *storyName = @"Main";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        storyName = @"ipad";
+    }
+    
+    UIStoryboard *story = [UIStoryboard storyboardWithName:storyName bundle:nil];
+    WebViewController *webview = [story instantiateViewControllerWithIdentifier:@"webview"];
+   
+    [self presentViewController:webview  animated:YES completion:^{
+         [webview load:url];
+    }];
+}
+-(void)bindNetEvent
+{
+
+    [VCLReachability subscribeToReachabilityNotificationsWithDelegate:self];
+}
+
+/*
+ Broadcast based on reachability object to update UI
+ */
+- (void)updateWithReachability:(VCLReachability *)reachability forType:(NSString*)type
+{
+    NetworkStatus netStatus = [reachability currentReachabilityStatus];
+    NSLog(@"netStatus:%ld",(long)netStatus);
+    if (netStatus == NotReachable) {
+        [hud setCaption:@"请连接网络才能使用!"];
+        [hud show];
+        lastNetStatus= NotReachable;
+    }else if(lastNetStatus == NotReachable){
+        
+        [hud hide];
+    }
 }
 @end

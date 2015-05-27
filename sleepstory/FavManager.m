@@ -8,6 +8,7 @@
 
 #import "FavManager.h"
 #import "math.h"
+
 @implementation FavManager
 static FavManager * instance;
 +(FavManager *)shareManager
@@ -26,7 +27,7 @@ static FavManager * instance;
     (NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectoryPath = [directoryPaths objectAtIndex:0];
     
-    NSString *databaseFile = [NSString stringWithFormat:@"%@/database.sqlite",documentsDirectoryPath];
+    NSString *databaseFile = [NSString stringWithFormat:@"%@/database.bin",documentsDirectoryPath];
     
     int result = sqlite3_open([databaseFile UTF8String], &database);
     
@@ -77,7 +78,15 @@ static FavManager * instance;
         }
         sqlite3_finalize(statement);
     }
-    return result;
+    NSMutableArray *storys = [[NSMutableArray alloc] init];
+    for(int i=0;i<[result count];i++){
+        NSString *id = [result objectAtIndex:i];
+        StoryModel *story = [[StoryManager shareManager] get:[id intValue]];
+        if(story!=nil){
+            [storys addObject:story];
+        }
+    }
+    return storys;
 
 }
 -(void)delFav:(int)id
