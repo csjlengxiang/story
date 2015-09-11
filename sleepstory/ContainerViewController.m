@@ -16,7 +16,7 @@
 #import "MenuViewController.h"
 #import "AllStoryTableViewController.h"
 #import "WebViewController.h"
-
+#import "PMParentalGateQuestion.h"
 @interface ContainerViewController ()
 {
     StoryViewController *viewController1;
@@ -85,6 +85,7 @@
     firstId = 0;
     if([localStorys count]>0){
         StoryModel *s = [localStorys objectAtIndex:0];
+        nowStory = s;
         firstId = s.ID;
         [self initView];
     }else{
@@ -104,11 +105,12 @@
         if([localStorys count]>0){
             
             StoryModel *s = [localStorys objectAtIndex:0];
+            nowStory = s;
             int lastId = s.ID;
             if(lastId!=firstId){
                 [self initView];
                 
-                [self openbook];
+//                [self openbook];
                 firstId = lastId;
             }
         }else{
@@ -131,26 +133,36 @@
 -(void)updateStoryData
 {
     NSLog(@"唤醒，重新请求");
+    
     [[StoryManager shareManager] getAllFromOnlineWithFirstID:firstId success:^(NSMutableArray *_storys) {
         for(int i=0;i<[_storys count];i++){
             [[StoryManager shareManager] add:[_storys objectAtIndex:i]];
         }
-        NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
-        storys = localStorys;
-        [hud hide];
-        if([localStorys count]>0){
-            
-            StoryModel *s = [localStorys objectAtIndex:0];
-            int lastId = s.ID;
-            if(lastId!=firstId){
-                [self initView];
+        if([_storys count]>0){
+            NSMutableArray *localStorys = [[StoryManager shareManager] getAll];
+            storys = localStorys;
+            //        [hud hide];
+            if(localStorys!=nil&&[localStorys count]>0){
                 
-                [self openbook];
-                firstId = lastId;
+                StoryModel *s = [localStorys objectAtIndex:0];
+                if(s!=nil){
+                    NSLog(@"now:%d",s.ID);
+                    NSLog(@"firstId:%d",firstId);
+                    nowStory = s;
+                    int lastId = s.ID;
+                    if(lastId!=firstId){
+                        [self initView];
+                        
+//                        [self openbook];
+                        firstId = lastId;
+                    }
+                }
+                
+            }else{
+                
             }
-        }else{
-            
         }
+        
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -159,8 +171,7 @@
 }
 -(void)initView
 {
-        viewController1.story = storys[nowIndex];
-        nowStory =storys[nowIndex];
+    viewController1.story = nowStory;
     
         [self.view bringSubviewToFront:viewController1.view];
         
@@ -443,13 +454,36 @@
     [UMSocialData defaultData].urlResource = urlResource;
     [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
-   
-    [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"552fc46efd98c5cf6c0008bd"
-                                      shareText:text
-                                     shareImage:nil
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
-                                       delegate:nil];
+    if([url isEqualToString:@"http://www.html-js.com/music"]){
+         [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeText;
+    }else{
+        [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeWeb;
+    }
+    
+    [[PMParentalGateQuestion sharedGate] presentGateWithText:@"分享到第三方需要证明你是孩子家长，请回答以下问题" timeout:14.0f finishedBlock:^(BOOL allowPass, GateResult result) {
+        if (allowPass) {
+            NSLog(@"It's not a kid");
+        } else {
+            NSLog(@"Something's not right!");
+        }
+        
+        if(!allowPass){
+            [[[UIAlertView alloc] initWithTitle:@"家长保护验证失败"
+                                        message:[NSString stringWithFormat:@"家长保护验证失败！"]
+                                       delegate:nil
+                              cancelButtonTitle:@"好吧"
+                              otherButtonTitles: nil] show];
+        }else{
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"552fc46efd98c5cf6c0008bd"
+                                              shareText:text
+                                             shareImage:nil
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                               delegate:nil];
+        }
+        
+    }];
+    
 }
 -(void)openWebView:(NSString *)url
 {
@@ -470,6 +504,11 @@
 {
 
     [VCLReachability subscribeToReachabilityNotificationsWithDelegate:self];
+    if(lastNetStatus==ReachableViaWWAN){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"流量提示" message:@"播放故事会耗费一定的流量，请在WIFI环境下播放！" delegate:self cancelButtonTitle:@"知道啦，卓老师~" otherButtonTitles:nil];
+        [alert show];
+
+    }
 }
 
 /*

@@ -113,7 +113,7 @@ static StoryManager * instance;
 {
     StoryModel *story ;
     //执行查询
-    NSString *query =[NSString stringWithFormat:@"SELECT id,num,title,desc,cover,audio,visit_count,time,zip from storys where id<%d limit 0,1",id] ;
+    NSString *query =[NSString stringWithFormat:@"SELECT id,num,title,desc,cover,audio,visit_count,time,zip from storys where id<%d order by id desc limit 0,1",id] ;
     sqlite3_stmt *statement;
     
     

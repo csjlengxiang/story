@@ -138,7 +138,7 @@
 }
 -(void)share
 {
-    [self.containerDelegate share:@"二十一点睡前故事，每晚9点发布有声故事，点击下载收听：https://itunes.apple.com/cn/app/er-shi-yi-dian-shui-qian-gu-shi/id998079819" url:@"https://itunes.apple.com/cn/app/er-shi-yi-dian-shui-qian-gu-shi/id998079819" image:@"http://htmljs.b0.upaiyun.com/uploads/1432657726207-7b78790a8a373eb68f08fae3db50c7af.png"];
+    [self.containerDelegate share:@"二十一点睡前故事，是卓老师个人维护的微信公众号，几个月来每天坚持更新一个儿童故事，现在我们有自己的App啦，背景播放自动连播，更有内置绘本预览功能，边看边听两不误，准爸妈的育儿小帮手，点击下载收听：http://www.html-js.com/music" url:@"http://www.html-js.com/music" image:@"http://htmljs.b0.upaiyun.com/uploads/1432657726207-7b78790a8a373eb68f08fae3db50c7af.png"];
 
 }
 -(void)toAbout

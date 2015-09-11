@@ -88,7 +88,7 @@ var doone = function(_p,cb){
 		cb()
 	}
 }
-var source = './../巴特恩的裁缝梦/';
+var source = './../你很特别 3/';
 //同步深度遍历文件夹
 walk(source,function(list,next,context){
 	doone(path.join(__dirname,list),function(){

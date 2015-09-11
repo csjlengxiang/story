@@ -79,7 +79,7 @@
     UIButton *close = [[UIButton alloc] init];
     [close setBackgroundImage:[UIImage imageNamed:@"close-red-256.png"] forState:UIControlStateNormal];
     
-    close.frame = CGRectMake(5, 5, 30, 30);
+    close.frame = CGRectMake(5, 25, 30, 30);
     [self.view addSubview:close];
     close.opaque = 0.8f;
     close.layer.cornerRadius = 15;

@@ -13,7 +13,8 @@
 #import "StoryModel.h"
 #import "ContainerDelegate.h"
 #import "YDSlider.h"
-@interface StoryViewController : UIViewController<NCMusicEngineDelegate>
+#import "NSObject+VCLReachabilitySubscriber.h"
+@interface StoryViewController : UIViewController<NCMusicEngineDelegate,VCLReachabilitySubscriber>
 @property StoryModel *story;
 @property id<ContainerDelegate> containerDelegate;
 

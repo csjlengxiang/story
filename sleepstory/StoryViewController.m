@@ -12,7 +12,7 @@
 #import "RoundLabel.h"
 #import "UMSocial.h"
 #import <pop/POP.h>
-#import "NSDate+TimeAgo.h"
+
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "Track.h"
@@ -20,6 +20,7 @@
 #import "FavManager.h"
 #import "ATMHud.h"
 #import "BookViewController.h"
+#import "PMParentalGateQuestion.h"
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
 static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
@@ -62,6 +63,8 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     IBOutlet NSLayoutConstraint *coverLeft;
     IBOutlet NSLayoutConstraint *coverRight;
     IBOutlet NSLayoutConstraint *coverTop;
+    
+    NetworkStatus lastNetStatus;
 }
 @end
 
@@ -74,7 +77,10 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     
     self.view.backgroundColor = [SYUtil colorWithHex:@"ffffff"];
     descLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    descLabel.numberOfLines = 4;
+    descLabel.numberOfLines = 2;
+    if(SCREEN_HEIGHT>600){
+        descLabel.numberOfLines = 5;
+    }
 
     descLabel.preferredMaxLayoutWidth = self.view.frame.size.width;
     // Override point for customization after application launch.
@@ -91,6 +97,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
       descLabel.hidden = YES;
 
   }
+     [VCLReachability subscribeToReachabilityNotificationsWithDelegate:self];
 //    progressSlider = [[YDSlider alloc] init];
 //    progressSlider.frame = CGRectMake(0, 0, downloadProgressBar.frame.size.width, 3);
 //    
@@ -125,8 +132,9 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     
     viewCountLabel.text =[NSString stringWithFormat:@"  浏览次数:%d  ",self.story.visit_count] ;
     NSString *encodeURI = [self.story.cover stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-    [coverView sd_setImageWithURL:[NSURL URLWithString:encodeURI] placeholderImage:[UIImage imageNamed:@"loading.png"]];
+    NSURL *coverUrl = [NSURL URLWithString:encodeURI];
+    [self addSkipBackupAttributeToItemAtURL:coverUrl];
+     [coverView sd_setImageWithURL:coverUrl placeholderImage:[UIImage imageNamed:@"loading.png"]];
     
 //    numTitleLabel.text = [NSString stringWithFormat:@"第%d期",self.story.num];
 //    coverView.bounds =CGRectMake(0, 0, 100, 100);
@@ -156,7 +164,13 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 }
 -(void)updateVisit
 {
+    
     viewCountLabel.text =[NSString stringWithFormat:@"  浏览次数:%d  ",self.story.visit_count] ;
+    
+    NSString *encodeURI = [self.story.cover stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *coverUrl = [NSURL URLWithString:encodeURI];
+    [self addSkipBackupAttributeToItemAtURL:coverUrl];
+    [coverView sd_setImageWithURL:coverUrl placeholderImage:[UIImage imageNamed:@"loading.png"]];
 }
 -(void)showBookView
 {
@@ -187,7 +201,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
         //开始下载
         [hud setCaption:@"下载绘本中"];
         [hud show];
-        [hud hideAfter:2];
+//        [hud hideAfter:2];
         [[StoryManager shareManager] downloadZip:self.story.zip storyID:self.story.ID success:^{
             [hud setCaption:@"绘本下载完成"];
             [hud show];
@@ -261,6 +275,13 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     [coverView pop_addAnimation:anim forKey:@"size2"];
     
 }
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL {
+    
+    
+    NSError *error;
+    [URL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+    return (error != nil);
+}
 -(void)playOrStop
 {
     //如果正在播放就暂停播放，否则就开始播放。
@@ -276,6 +297,8 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
             Track *track = [[Track alloc] init];
             [track setArtist:dayInfoLabel.text];
             [track setTitle:self.story.title];
+            NSURL *url = [NSURL URLWithString:encodeURI];
+            [self addSkipBackupAttributeToItemAtURL:url];
             [track setAudioFileURL:[NSURL URLWithString:encodeURI]];
 
             streamer = [DOUAudioStreamer streamerWithAudioFile:track];
@@ -296,7 +319,13 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
             _timer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(_timerAction:) userInfo:nil repeats:YES];
             if([[StoryManager shareManager] hasZip:self.story.ID]){
             [self showBookView];
+                
+                
+                
             }
+            
+            
+            [self plusCount];
         }else{
             [streamer play];
 
@@ -304,6 +333,32 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
         isPlaying = YES;
         [playButton setBackgroundImage:[UIImage imageNamed:@"pause-256.png"] forState:UIControlStateNormal];
     }
+}
+-(void)plusCount{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger clickcount = [userDefaults integerForKey:@"clickcount"];
+//    if(clickcount){
+//        clickcount = 0;
+//    }
+    clickcount = clickcount+1;
+    NSCalendar  * cal=[NSCalendar  currentCalendar];
+    NSDate *  senddate=[NSDate date];
+    NSUInteger  unitFlags=NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit;
+    NSDateComponents * conponent= [cal components:unitFlags fromDate:senddate];
+    NSInteger year=[conponent year];
+    NSInteger month=[conponent month];
+    NSInteger day=[conponent day];
+    if(clickcount==3&&year>2014&&month>6&&day>1){
+
+          //去评价
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"给个五星好评吧~~" message:@"卓老师需要你的鼓励，去给个五星好评吧！谢谢支持~~" delegate:self cancelButtonTitle:@"支持下" otherButtonTitles:@"继续听",nil];
+        [alert show];
+        
+        
+    }
+    [userDefaults setInteger:clickcount forKey:@"clickcount"];
+    [userDefaults synchronize];
+    
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -378,10 +433,25 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
         [self.containerDelegate playNext];
     }
 }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex ==0){
+       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/cn/app/er-shi-yi-dian-shui-qian-gu-shi/id998079819"]]];
+    }
+}
 //播放
 - (IBAction)play:(id)sender
 {
 //    [progressTimer fire];
+//    if(streamer!=nil&&streamer.status==DOUAudioStreamerPlaying){
+//    
+//    }else{
+//        if(lastNetStatus==ReachableViaWiFi){
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定在非wifi环境下播放？" message:@"播放会耗费一定的流量，确定继续播放？" delegate:self cancelButtonTitle:@"再溜达看看" otherButtonTitles:@"流量多任性播", nil];
+//            [alert show];
+//            return;
+//        }
+//    }
     [self playOrStop];
     
     POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
@@ -519,12 +589,30 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     [UMSocialData defaultData].urlResource = urlResource;
     [UMSocialData defaultData].extConfig.wechatSessionData.url = [NSString stringWithFormat:@"http://www.html-js.com/music/%d",self.story.ID];
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = [NSString stringWithFormat:@"http://www.html-js.com/music/%d",self.story.ID];
-    [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"552fc46efd98c5cf6c0008bd"
-                                      shareText:[NSString stringWithFormat:@"二十一点·睡前故事 第%d期《%@》点击收听 http://www.html-js.com/music/%d",self.story.num,self.story.title,self.story.ID ]
-                                     shareImage:nil
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
-                                       delegate:nil];
+    [[PMParentalGateQuestion sharedGate] presentGateWithText:@"分享到第三方需要证明你是孩子家长，请回答以下问题" timeout:14.0f finishedBlock:^(BOOL allowPass, GateResult result) {
+        if (allowPass) {
+            NSLog(@"It's not a kid");
+        } else {
+            NSLog(@"Something's not right!");
+        }
+        
+        if(!allowPass){
+            [[[UIAlertView alloc] initWithTitle:@"家长保护验证失败"
+                                        message:[NSString stringWithFormat:@"家长保护验证失败！"]
+                                       delegate:nil
+                              cancelButtonTitle:@"好吧"
+                              otherButtonTitles: nil] show];
+        }else{
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"552fc46efd98c5cf6c0008bd"
+                                              shareText:[NSString stringWithFormat:@"二十一点·睡前故事 第%d期《%@》点击收听 http://www.html-js.com/music/%d",self.story.num,self.story.title,self.story.ID ]
+                                             shareImage:nil
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToDouban,UMShareToSms,UMShareToFacebook,UMShareToTwitter,nil]
+                                               delegate:nil];
+        }
+        
+    }];
+   
 }
 -(IBAction)fav:(UIButton *)sender
 {
@@ -587,5 +675,27 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     return imageView;
 }
 
+-(void)bindNetEvent
+{
+    
+    [VCLReachability subscribeToReachabilityNotificationsWithDelegate:self];
+}
+
+/*
+ Broadcast based on reachability object to update UI
+ */
+- (void)updateWithReachability:(VCLReachability *)reachability forType:(NSString*)type
+{
+    NetworkStatus netStatus = [reachability currentReachabilityStatus];
+//    NSLog(@"netStatus:%ld",(long)netStatus);
+//    if (netStatus == NotReachable) {
+//        [hud setCaption:@"请连接网络才能使用!"];
+//        [hud show];
+        lastNetStatus= netStatus;
+//    }else if(lastNetStatus == NotReachable){
+//        
+//        [hud hide];
+//    }
+}
 
 @end

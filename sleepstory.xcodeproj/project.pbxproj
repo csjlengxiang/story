@@ -110,12 +110,6 @@
 		85E9B1C71AD1531700C0BA65 /* repeatone-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1C51AD1531600C0BA65 /* repeatone-256.png */; };
 		85E9B1CA1AD15D5100C0BA65 /* RoundIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1C91AD15D5100C0BA65 /* RoundIconButton.m */; };
 		85E9B1CD1AD168CF00C0BA65 /* RoundLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1CC1AD168CF00C0BA65 /* RoundLabel.m */; };
-		85E9B1D61AD17B4E00C0BA65 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1CF1AD17B4E00C0BA65 /* LICENSE */; };
-		85E9B1D71AD17B4E00C0BA65 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1D01AD17B4E00C0BA65 /* NSDate+Extension.swift */; };
-		85E9B1D81AD17B4E00C0BA65 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1D21AD17B4E00C0BA65 /* NSDate+TimeAgo.m */; };
-		85E9B1D91AD17B4E00C0BA65 /* NSDate+TimeAgo.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1D31AD17B4E00C0BA65 /* NSDate+TimeAgo.podspec */; };
-		85E9B1DA1AD17B4E00C0BA65 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1D41AD17B4E00C0BA65 /* NSDateTimeAgo.bundle */; };
-		85E9B1DB1AD17B4E00C0BA65 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1D51AD17B4E00C0BA65 /* README.md */; };
 		85E9B1DD1AD4380100C0BA65 /* topic-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 85E9B1DC1AD4380100C0BA65 /* topic-256.png */; };
 		85E9B1E01AD574D500C0BA65 /* YDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E9B1DF1AD574D500C0BA65 /* YDSlider.m */; };
 		85E9B1E21AD5846900C0BA65 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E9B1E11AD5846900C0BA65 /* MediaPlayer.framework */; };
@@ -132,6 +126,7 @@
 		900D73691B14CF6900DF727A /* c-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 900D73681B14CF6900DF727A /* c-ipad.png */; };
 		900D736B1B14D10200DF727A /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 900D736A1B14D10200DF727A /* loading.png */; };
 		900D736D1B14D2A000DF727A /* database.bin in Resources */ = {isa = PBXBuildFile; fileRef = 900D736C1B14D2A000DF727A /* database.bin */; };
+		9031785B1B21FD5000343F0E /* PMParentalGateQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9031785A1B21FD5000343F0E /* PMParentalGateQuestion.m */; };
 		9044CD631B02231300923472 /* bookmark-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 9044CD621B02231300923472 /* bookmark-gray.png */; };
 		904CD0D71AEE844200342941 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 904CD0CD1AEE844200342941 /* ioapi.c */; };
 		904CD0D81AEE844200342941 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 904CD0CF1AEE844200342941 /* mztools.c */; };
@@ -369,13 +364,6 @@
 		85E9B1C91AD15D5100C0BA65 /* RoundIconButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundIconButton.m; sourceTree = "<group>"; };
 		85E9B1CB1AD168CF00C0BA65 /* RoundLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundLabel.h; sourceTree = "<group>"; };
 		85E9B1CC1AD168CF00C0BA65 /* RoundLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundLabel.m; sourceTree = "<group>"; };
-		85E9B1CF1AD17B4E00C0BA65 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		85E9B1D01AD17B4E00C0BA65 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
-		85E9B1D11AD17B4E00C0BA65 /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
-		85E9B1D21AD17B4E00C0BA65 /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
-		85E9B1D31AD17B4E00C0BA65 /* NSDate+TimeAgo.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NSDate+TimeAgo.podspec"; sourceTree = "<group>"; };
-		85E9B1D41AD17B4E00C0BA65 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
-		85E9B1D51AD17B4E00C0BA65 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85E9B1DC1AD4380100C0BA65 /* topic-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic-256.png"; sourceTree = "<group>"; };
 		85E9B1DE1AD574D500C0BA65 /* YDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDSlider.h; sourceTree = "<group>"; };
 		85E9B1DF1AD574D500C0BA65 /* YDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDSlider.m; sourceTree = "<group>"; };
@@ -400,6 +388,8 @@
 		900D73681B14CF6900DF727A /* c-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "c-ipad.png"; sourceTree = "<group>"; };
 		900D736A1B14D10200DF727A /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		900D736C1B14D2A000DF727A /* database.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = database.bin; sourceTree = "<group>"; };
+		903178591B21FD5000343F0E /* PMParentalGateQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMParentalGateQuestion.h; sourceTree = "<group>"; };
+		9031785A1B21FD5000343F0E /* PMParentalGateQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMParentalGateQuestion.m; sourceTree = "<group>"; };
 		9044CD621B02231300923472 /* bookmark-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-gray.png"; sourceTree = "<group>"; };
 		904CD0A31AEE7DFF00342941 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		904CD0A51AEE7E1000342941 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
@@ -560,6 +550,8 @@
 				85DF7B341AB5E91400D0E113 /* NCMusicEngine */,
 				858C9A3F1AADD0B200D14832 /* resource */,
 				858A37D01AA582BD00A06E68 /* AppDelegate.h */,
+				903178591B21FD5000343F0E /* PMParentalGateQuestion.h */,
+				9031785A1B21FD5000343F0E /* PMParentalGateQuestion.m */,
 				859E628D1AB5CC1D005996B8 /* AudioStreamer.h */,
 				859E628E1AB5CC1D005996B8 /* AudioStreamer.m */,
 				858C9A471AADD82000D14832 /* FDFontPickerViewController.h */,
@@ -569,7 +561,6 @@
 				858C9A441AADD69C00D14832 /* FDLabelView.h */,
 				858C9A451AADD69C00D14832 /* FDLabelView.m */,
 				90FA01E21B106B8200DBF458 /* MaryPopin */,
-				85E9B1CE1AD17B4E00C0BA65 /* NSDate-TimeAgo-master */,
 				85275D861A8F9EE100003EC4 /* model */,
 				85275D821A8F9DE500003EC4 /* view */,
 				85275D571A8F9C2A00003EC4 /* AppDelegate.h */,
@@ -923,20 +914,6 @@
 			path = NCMusicEngine;
 			sourceTree = "<group>";
 		};
-		85E9B1CE1AD17B4E00C0BA65 /* NSDate-TimeAgo-master */ = {
-			isa = PBXGroup;
-			children = (
-				85E9B1CF1AD17B4E00C0BA65 /* LICENSE */,
-				85E9B1D01AD17B4E00C0BA65 /* NSDate+Extension.swift */,
-				85E9B1D11AD17B4E00C0BA65 /* NSDate+TimeAgo.h */,
-				85E9B1D21AD17B4E00C0BA65 /* NSDate+TimeAgo.m */,
-				85E9B1D31AD17B4E00C0BA65 /* NSDate+TimeAgo.podspec */,
-				85E9B1D41AD17B4E00C0BA65 /* NSDateTimeAgo.bundle */,
-				85E9B1D51AD17B4E00C0BA65 /* README.md */,
-			);
-			path = "NSDate-TimeAgo-master";
-			sourceTree = "<group>";
-		};
 		900D735C1B14501400DF727A /* ios */ = {
 			isa = PBXGroup;
 			children = (
@@ -1062,6 +1039,7 @@
 		85275D481A8F9C2A00003EC4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "html-js";
 				TargetAttributes = {
@@ -1071,6 +1049,7 @@
 					};
 					85275D681A8F9C2A00003EC4 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = M78L9G96T2;
 						TestTargetID = 85275D4F1A8F9C2A00003EC4;
 					};
 				};
@@ -1122,17 +1101,14 @@
 				9044CD631B02231300923472 /* bookmark-gray.png in Resources */,
 				85E9B1C31AC5CDA900C0BA65 /* 211-action@2x.png in Resources */,
 				90C778AB1AE9523800F06E38 /* cancel-256.png in Resources */,
-				85E9B1D61AD17B4E00C0BA65 /* LICENSE in Resources */,
 				85E9B1C11AC5C9D300C0BA65 /* playprev-256.png in Resources */,
 				8566162A1ADFF8A100D8F33E /* UMSocialLocalizable.strings in Resources */,
 				856616471ADFF93200D8F33E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				85E9B1D91AD17B4E00C0BA65 /* NSDate+TimeAgo.podspec in Resources */,
 				8566160A1ADD6CDA00D8F33E /* cover.png in Resources */,
 				900055431AF8DB5700D2C620 /* bookmark-256.png in Resources */,
 				85E9B1BC1AC5C55A00C0BA65 /* pause-256.png in Resources */,
 				858C9A411AADD0C300D14832 /* menu-100.png in Resources */,
 				858C9A431AADD13900D14832 /* share-100.png in Resources */,
-				85E9B1DA1AD17B4E00C0BA65 /* NSDateTimeAgo.bundle in Resources */,
 				90FA01E11B106A2A00DBF458 /* cancel-gray-256.png in Resources */,
 				85E9B1BD1AC5C55A00C0BA65 /* play-256.png in Resources */,
 				90FA01DF1B10682C00DBF458 /* bookmark-white-256.png in Resources */,
@@ -1205,7 +1181,6 @@
 				85E9B1CD1AD168CF00C0BA65 /* RoundLabel.m in Sources */,
 				85A70EE11AC452F900A5EB8C /* SDWebImageManager.m in Sources */,
 				85275D7B1A8F9CEA00003EC4 /* SYUtil.m in Sources */,
-				85E9B1D71AD17B4E00C0BA65 /* NSDate+Extension.swift in Sources */,
 				904CD0DB1AEE844200342941 /* SSZipArchive.m in Sources */,
 				90C778A21AE69FE400F06E38 /* ATMSoundFX.m in Sources */,
 				85DF7B411AB5E91400D0E113 /* NCMusicEngine.m in Sources */,
@@ -1214,13 +1189,13 @@
 				90C778A01AE69FE400F06E38 /* ATMHudView.m in Sources */,
 				85A70EDD1AC452F900A5EB8C /* SDWebImageCompat.m in Sources */,
 				900D73641B14501400DF727A /* NSObject+VCLReachabilitySubscriber.m in Sources */,
-				85E9B1D81AD17B4E00C0BA65 /* NSDate+TimeAgo.m in Sources */,
 				85A70EE01AC452F900A5EB8C /* SDWebImageDownloaderOperation.m in Sources */,
 				85A70DC51ABB240F00A5EB8C /* AFNetworkActivityIndicatorManager.m in Sources */,
 				90C778AE1AEBE7E900F06E38 /* FavStoryCell.m in Sources */,
 				8566168C1AE01D5C00D8F33E /* DOUAudioRenderer.m in Sources */,
 				85A70DC91ABB240F00A5EB8C /* UIImageView+AFNetworking.m in Sources */,
 				85A70EE81AC452F900A5EB8C /* UIImageView+WebCache.m in Sources */,
+				9031785B1B21FD5000343F0E /* PMParentalGateQuestion.m in Sources */,
 				85A70DC21ABB240F00A5EB8C /* AFHTTPRequestOperation.m in Sources */,
 				85A70DC31ABB240F00A5EB8C /* AFImageRequestOperation.m in Sources */,
 				85E9B1E01AD574D500C0BA65 /* YDSlider.m in Sources */,
@@ -1279,7 +1254,6 @@
 				856616851AE01D5C00D8F33E /* DOUAudioDecoder.m in Sources */,
 				85A70DC61ABB240F00A5EB8C /* AFPropertyListRequestOperation.m in Sources */,
 				856616941AE01D5C00D8F33E /* NSData+DOUMappedFile.m in Sources */,
-				85E9B1DB1AD17B4E00C0BA65 /* README.md in Sources */,
 				859E628F1AB5CC1D005996B8 /* AudioStreamer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1348,6 +1322,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: sun ge (M78L9G96T2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1369,7 +1344,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "";
-				PROVISIONING_PROFILE = "b0b750fe-f7ff-4d12-8c6e-07023a4eb35d";
+				PROVISIONING_PROFILE = "0b9f3409-9678-4f59-af3b-c3f2d701197d";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1391,6 +1366,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: sun ge (M78L9G96T2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1404,8 +1380,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "";
-				PROVISIONING_PROFILE = "b0b750fe-f7ff-4d12-8c6e-07023a4eb35d";
+				PROVISIONING_PROFILE = "0b9f3409-9678-4f59-af3b-c3f2d701197d";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1491,6 +1468,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1502,6 +1481,7 @@
 				INFOPLIST_FILE = sleepstoryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/睡前故事书.app/睡前故事书";
 			};
 			name = Debug;
@@ -1510,6 +1490,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1517,6 +1499,7 @@
 				INFOPLIST_FILE = sleepstoryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/睡前故事书.app/睡前故事书";
 			};
 			name = Release;
